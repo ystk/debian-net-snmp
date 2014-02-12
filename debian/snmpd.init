@@ -90,8 +90,12 @@ case "$1" in
     ;;
   status)
     status=0
-    status_of_proc /usr/sbin/snmpd snmpd || status=$?
-    status_of_proc /usr/sbin/snmptrapd snmptrapd || status=$?
+    if [ "$SNMPDRUN" = "yes" -a -f /etc/snmp/snmpd.conf ]; then
+    	status_of_proc /usr/sbin/snmpd snmpd || status=$?
+    fi
+    if [ "$TRAPDRUN" = "yes" -a -f /etc/snmp/snmptrapd.conf ]; then
+    	status_of_proc /usr/sbin/snmptrapd snmptrapd || status=$?
+    fi
     exit $status
     ;;
   *)

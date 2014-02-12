@@ -29,6 +29,8 @@ else
 MIB_MODULES += host
 endif
 
+DEB_CFLAGS_MAINT_APPEND=-DNETSNMP_USE_INLINE
+
 %:
 	dh --with python-central $@
 
@@ -43,7 +45,7 @@ override_dh_auto_configure:
 	dh_auto_configure -- --prefix=/usr --sysconfdir=/etc --mandir=/usr/share/man \
 	  --with-persistent-directory=/var/lib/snmp \
 	  --enable-ucd-snmp-compatibility \
-	  --enable-shared --with-cflags="$(CFLAGS) -DNETSNMP_USE_INLINE" \
+	  --enable-shared $(shell dpkg-buildflags --export=configure) \
 	  --with-perl-modules="INSTALLDIRS=vendor" --enable-as-needed \
 	  $(IPV6) --with-logfile=none \
 	  --without-rpm --with-libwrap --with-openssl \

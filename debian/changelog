@@ -1,3 +1,80 @@
+net-snmp (5.4.3~dfsg-2.7) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * debian/patches/27_kfreebsd_bug625985.patch: New patch, fix build error on
+    kfreebsd-*, by Steven Chamberlain (closes: #625985).
+
+ -- Michael Banck <mbanck@debian.org>  Sat, 24 Nov 2012 13:30:51 +0100
+
+net-snmp (5.4.3~dfsg-2.6) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * debian/libsnmp-perl.postinst: Fix directory to symlink upgrade in
+    postinst (closes: #692949)
+
+ -- David Prévot <taffit@debian.org>  Sun, 18 Nov 2012 09:24:30 -0400
+
+net-snmp (5.4.3~dfsg-2.5) unstable; urgency=medium
+
+  * Non-maintainer upload by the Security Team.
+  * Fix CVE-2012-2141 by using Ubuntu's patch (Closes: #672492).
+  * Do not ship *.la files (Closes: #633166).
+  * Enable hardened build flags and fix missing format strings 
+    (Closes: #657519).
+  * Source debconf before doing work in postinst (Closes: #626312).
+  * Fix check for existing snmp group in postinst (Closes: #609430).
+  * Use *-any architecture qualifiers (Closes: #634735).
+  * Add Indonesian debconf translation (Closes: #654166).
+  * Add Polish debconf translation (Closes: #661252).
+
+ -- Luk Claes <luk@debian.org>  Sun, 27 May 2012 17:22:01 +0200
+
+net-snmp (5.4.3~dfsg-2.4) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Trivial lintian fix: don't use braces in libsnmp-dev.install
+  * Fix pending l10n issues. Debconf translations:
+    - Korean (si-cheol KO).  Closes: #630948
+    - Slovak (Slavko).  Closes: #634988
+    - Serbian (Zlatan Todoric).  Closes: #635066
+    - Serbian Latin (Zlatan Todoric).  Closes: #635067
+    - Catalan; (Innocent De Marchi).  Closes: #641829
+
+ -- Christian Perrier <bubulle@debian.org>  Mon, 19 Dec 2011 07:34:31 +0100
+
+net-snmp (5.4.3~dfsg-2.3) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Fix for init script status command when trapd is not running.  Thanks to
+    Steve Camfield <steve.camfield@scamfield.co.uk> for the patch
+    (closes: #610306)
+
+ -- Stephen Gran <sgran@debian.org>  Sat, 27 Aug 2011 09:10:09 +0000
+
+net-snmp (5.4.3~dfsg-2.2) unstable; urgency=high
+
+  * Non-maintainer upload.
+  * Fix FTBFS on kfreebsd-* by updating 44_nlist_kvm.patch to detect nlist
+    (in libbsd), thanks to Jakub Wilk (Closes: #625985).
+  * Add build-dependency on libbsd-dev on kfreebsd-* accordingly.
+
+ -- Cyril Brulebois <kibi@debian.org>  Mon, 09 May 2011 11:12:31 +0200
+
+net-snmp (5.4.3~dfsg-2.1) unstable; urgency=high
+
+  [ Julien Cristau ]
+  * Non-maintainer upload to fix FTBFS (closes: #625730).
+  * Don't hardcode SHELL to /bin/sh in Makefile.top, libtool wants bash
+    (closes: #617212).
+  * Add missing libraries to link commands to make newer gcc happy (closes:
+    #555767, #615756).
+
+  [ Cyril Brulebois ]
+  * Do the 3.0 (quilt) dance to get Julien's patches applied.
+  * Add some bug closures.
+
+ -- Cyril Brulebois <kibi@debian.org>  Sat, 07 May 2011 12:14:26 +0200
+
 net-snmp (5.4.3~dfsg-2) unstable; urgency=high
 
   * Add libperl-dev to libsnmp-dev dependencies (Closes: #608794)
