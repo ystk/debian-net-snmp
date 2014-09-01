@@ -1,3 +1,347 @@
+net-snmp (5.7.2.1~dfsg-6.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Fix "hardcodes /usr/lib/perl5":
+    Make debian/libsnmp-perl.install executable and use $Config{vendorarch} to
+    get the perl library directory. Patch from Niko Tyni.
+    (Closes: #751918)
+  * Fix "FTBFS on kfreebsd-amd64 - 'struct kinfo_proc' has no member
+    named 'kp_eproc'":
+    Add patch from Niko Tyni which fixes a DEFINE that changed between
+    kfreebsd-kernel-headers 9 and 10.
+    (Closes: #753144)
+  * Fix "snmpd: Memory leak when SNMP GET request id is zero":
+    add patch from upstream bug, prepared by Roland Stigge.
+    (Closes: #746225)
+
+ -- gregor herrmann <gregoa@debian.org>  Fri, 18 Jul 2014 14:48:18 +0200
+
+net-snmp (5.7.2.1~dfsg-6) unstable; urgency=medium
+
+  * debian/{snmpd.conf,patches/add_rocommunity6.patch}
+    - fix typo, thanks to Uwe Storbeck <uwe@ibr.ch> for the report
+      (Closes: #746399)
+  * debian/control
+    - libsnmp-dev: add "Depends: libpci-dev" (Closes: #744023)
+
+ -- Hideki Yamane <henrich@debian.org>  Sun, 04 May 2014 10:55:05 +0900
+
+net-snmp (5.7.2.1~dfsg-5) unstable; urgency=high
+
+  * debian/patches
+    - add ifmib.patch taken from upstream to work on systems without a PCI bus
+      Thanks to Chris Boot <debian@bootc.net> and Sergey Dorofeev
+      <sergey@fidoman.ru> for the report (Closes: #745919, #745956)
+
+ -- Hideki Yamane <henrich@debian.org>  Sun, 27 Apr 2014 17:05:08 +0900
+
+net-snmp (5.7.2.1~dfsg-4) unstable; urgency=medium
+
+  * debian/*.init
+    - fix incorrect sequence of options passed to start-stop-daemon
+      Thanks to Mehul Sanghvi <mehul.sanghvi@gmail.com> (Closes: #745828)
+
+ -- Hideki Yamane <henrich@debian.org>  Sat, 26 Apr 2014 14:19:55 +0900
+
+net-snmp (5.7.2.1~dfsg-3) unstable; urgency=medium
+
+  * Upload to unstable
+  * debian/snmptrapd.init
+    - fix "--force-reload" option (Closes: #525028)
+
+ -- Hideki Yamane <henrich@debian.org>  Thu, 10 Apr 2014 00:08:03 +0900
+
+net-snmp (5.7.2.1~dfsg-2) experimental; urgency=medium
+
+  * fix broken debian/snmpd.postinst
+  * debian/control
+    - fix dependency for snmptrapd since '/usr/bin/traptoemail' is also in
+      snmp (<< 5.7.2.1~dfsg-1)
+
+ -- Hideki Yamane <henrich@debian.org>  Tue, 01 Apr 2014 23:15:15 +0900
+
+net-snmp (5.7.2.1~dfsg-1) experimental; urgency=medium
+
+  * New upstream release
+    - fix DoS on ICMP-MIB as CVE-2014-2284 (Closes: #742817)
+  * Ack NMU (Closes: #717419)
+  * debian/patches
+    - add add_rocommunity6.patch to fix snmpwalk using ipv6 (Closes: #717179)
+    - add fix_manpage-has-errors-from-man.patch
+    - add agentx-crash.patch, taken from Fedora package. It fixes CVE-2012-6151
+      (Closes: #731625)
+    - add TrapReceiver.patch to fix CVE-2014-2285
+  * debian/control
+    - set Standards-Version: 3.9.5
+    - add "Build-Depends: libpci-dev" to enable libpci function that was
+      introduced in 5.7 (Closes: #741504)
+    - split snmptrapd from snmpd to allow to install only snmpd on systems that
+      will never issue traps (Closes: #314902)
+      + Also it separates mysql dependency (Closes: #715486)
+  * debian/libsnmp-dev.install
+    - add missing net-snmp-create-v3-user (Closes: #726158, #718988)
+  * debian/upstream/signing-key.asc
+    - check upstream PGP key
+  * debian/rules
+    - add etherlike-mib/dot3StatsTable (Closes: #729732, LP#1251847)
+  * debian/snmpd.init
+    - relax start-stop-daemons avoid restart daemon before it terminates.
+      Thanks to Saj Goonatilleke <saj.goonatilleke@anchor.net.au> for the
+      patch (Closes: #640456)
+    - fix "init.d-script-does-not-source-init-functions" lintian warning
+  * debian/snmptrapd.init
+    - split it from snmpd.init (Closes: #724288)
+  * debian/snmpd.postinst
+    - fix weird user creation (Closes: #482041, #589040, #606784, #610630)
+  * debian/snmpd.postrm
+    - remove unnecessary old /var/agentx/master directory with purge
+      (Closes: #728546)
+  * debian/snmp.install
+    - move traptoemail to snmptrapd.install releated to above changes
+  * debian/{snmpd,snmptrapd}.default
+    - fix pid diretory (Closes: #611668)
+  * debian/README.Debian
+    - note snmpconf is in snmp package (Closes: #577649)
+
+ -- Hideki Yamane <henrich@debian.org>  Sun, 30 Mar 2014 19:58:39 +0900
+
+net-snmp (5.7.2~dfsg-8.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Move net-snmp-config to libsnmp-dev package (Closes: #716805)
+  * Mark libsnmp-base as Multi-Arch: foreign and drop Multi-Arch: same for
+    libsnmp-dev package (Closes: #708302)
+
+ -- Laurent Bigonville <bigon@debian.org>  Sat, 13 Jul 2013 17:13:09 +0200
+
+net-snmp (5.7.2~dfsg-8) unstable; urgency=low
+
+  * add libsnmp-perl.preinst to deal with empty directory by libsnmp15
+    package removal (Closes: #709761) 
+  * {snmp,snmpd}.postinst: deal with "copyright file missing after upgrade
+    (policy 12.5)" (Closes: #709087)
+
+ -- Hideki Yamane <henrich@debian.org>  Thu, 06 Jun 2013 08:49:02 +0900
+
+net-snmp (5.7.2~dfsg-7) unstable; urgency=low
+
+  * debian/control
+    - libsnmp-base: update to more policy polite (Breaks/Replaces: libsnmp15
+      (<<5.7.2~dfsg-5)), thanks to James McCoy
+  * debian/snmp.preinst
+    - fix incomplete script.
+
+ -- Hideki Yamane <henrich@debian.org>  Mon, 20 May 2013 14:19:36 +0900
+
+net-snmp (5.7.2~dfsg-6) unstable; urgency=low
+
+  * debian/rules
+    - Fix Hurd build issue, thanks Pino Toscano <pino@debian.org> for
+      the patch (Closes: #708951)
+  * debian/snmpd.init
+    - patch from Ubuntu, LSBified
+  * debian/snmp.pre{inst,rm}
+    - patch from Ubuntu, Kill any/all processes owned by snmp user before
+      install/uninstall.
+  * debian/control
+    - add "Conflicts: libsnmp15" to libsnmp-base since moving net-snmp-config
+      in previous version cause trouble (Closes: #708983)
+
+ -- Hideki Yamane <henrich@debian.org>  Mon, 20 May 2013 08:49:14 +0900
+
+net-snmp (5.7.2~dfsg-5) unstable; urgency=low
+
+  * debian/control
+    - fix typo and improve description, thanks to Martin Eberhard Schauer
+      <Martin.E.Schauer@gmx.de> for the patch (Closes: #708519)
+    - libsnmp-base: add "Conflicts: libsnmp30 (<< 5.7.2~dfsg-5)" since
+      net-snmp-config file moves from libsnmp30 to libsnmp-base
+      (Closes: #708298)
+    - update descriptions
+  * debian/{libsnmp-base,libsnmp30}.install: update
+
+ -- Hideki Yamane <henrich@debian.org>  Sun, 19 May 2013 23:09:52 +0900
+
+net-snmp (5.7.2~dfsg-4) unstable; urgency=low
+
+  * debian/snmpd.{init,default,postinst}
+    - silly bug related to handle /var/run/agentx directory 
+      (Closes: #708335, #708328) Thanks to Hilmar Preuße <hille42@web.de> and
+      Vincent Bernat <bernat@debian.org> for reporting
+
+ -- Hideki Yamane <henrich@debian.org>  Wed, 15 May 2013 22:21:39 +0900
+
+net-snmp (5.7.2~dfsg-3) unstable; urgency=low
+
+  * Upload to unstable
+  * debian/control 
+    - specify version for "Breaks: libsnmp15"
+
+ -- Hideki Yamane <henrich@debian.org>  Thu, 09 May 2013 20:38:28 +0900
+
+net-snmp (5.7.2~dfsg-2) experimental; urgency=low
+
+  * debian/snmpd.{postinst,postrm}
+    - avoid failure with /var/run/agentx 
+  * debian/control
+    - add "Breaks: libsnmp15" to snmp since snmp.conf moves from it.
+
+ -- Hideki Yamane <henrich@debian.org>  Fri, 26 Apr 2013 16:02:01 +0900
+
+net-snmp (5.7.2~dfsg-1) experimental; urgency=low
+
+  * debian/control
+    - add myself to Uploaders. Thanks, Jochen.
+  * debian/snmpd.{dirs,init,postinst}
+    - ensure /var/run/agentx exists since maybe /var/run would be tmpfs, so
+      would disappear with reboot. Thanks to lintian.
+  * debian/patches
+    - add fix_manpage-has-errors_break_line.patch
+
+ -- Hideki Yamane <henrich@debian.org>  Fri, 26 Apr 2013 07:47:09 +0900
+
+net-snmp (5.7.2~dfsg-1~0.2) experimental; urgency=low
+
+  * Non-maintainer upload.
+  * debian/rules
+    - don't specify installdocs -plibsnmp-perl twice.
+    - add dh_python2 to avoid missing dependency (Closes: #704864)
+  * debian/control
+    - set XS-Python-Version: 2.7 to avoid that dh_python2 would fail
+
+ -- Hideki Yamane <henrich@debian.org>  Tue, 09 Apr 2013 10:42:56 +0900
+
+net-snmp (5.7.2~dfsg-1~0.1) experimental; urgency=low
+
+  * Non-maintainer upload.
+  * New upstream version 5.7.2 (Closes: #557348, #631063, #684388, #599929,
+    #673197, #581185, #558356, #568550, #514842, #445608, #557186, #411858,
+    #428824, #611837, #495060, #527231, #583391, #572414, #668545, #344979,
+    #397573)
+  * debian/control
+    - set "Standards-Version: 3.9.4"
+    - set "Build-Depends: debhelper (>= 9)" to enable hardening
+    - set "Build-Depends: automake", instead of automake1.9
+    - drop "Build-Depends: python-central", use dh_python2 by default, instead
+    - remove duplicational "Priority:" and "Section:" fields
+    - make it "Multi-Arch" enable
+    - add description for non-free snmp-mibs-downloader for users' convinience
+      (Closes: #561124)
+    - add "Build-Depends: libmysqld-dev" to support MySQL
+    - add "Build-Depends: dh-autoreconf"
+    - use python-all (2.6.6-3~) instead of python-all-dev (>= 2.5.4-1~), python
+      (>=2.3.5-7) for Build-Depends
+    - add "Build-Depends: python2.7-dev"
+    - s/libsnmp-python/python-netsnmp/ as Python Policy compliant
+      (Closes: #661899)
+    - Add libsnmp-base to snmp and snmpd's Depends and remove it from
+      libsnmp30, also remove "Depends: libsnmp-perl (=${binary:Version})" from
+      libsnmp-dev to adjust dependencies in Multi-Arch compliant.
+    - simplify libsnmp-perl's Depends to avoid piuparts error
+    - remove "Conflicts: libsnmp-dev" from libsnmp-dev
+    - point to git://anonscm.debian.org/pkg-net-snmp/pkg-net-snmp.git for
+      Vcs-* fields
+  * debian/compat
+    - set 9
+  * debian/*.install
+    - split into *.manpages
+  * debian/fixman: drop it.
+  * debian/*.manpages (Closes: #505149) 
+    - remove unnecessary"snmp" from tail of all man pages
+  * debian/libsnmp-base.install
+    - move /usr/share/mibs to /usr/share/snmp/mibs (probably, previous setting
+      was just wrong...)
+    - install all mibs/*.txt
+  * debian/libsnmp-dev.install
+    - change from "usr/lib/*" to "usr/lib/*/*" to deal with Multi-Arch
+  * debian/libsnmp30.install
+    - change from "usr/lib/*.so" to "usr/lib/*/*.so" to deal with Multi-Arch
+  * debian/snmp.dirs: remove it since unnecessary
+  * debian/snmpd.dirs: remove lintian overrides direcotry, add /etc/snmp
+  * debian/libsnmp-dev.dirs: add it
+  * debian/libsnmp-perl.examples: add it since dh_installexamples target in
+    previous debian/rules doesn't work correctly.
+  * debian/patches
+    - remove all *.README files
+    - add fix_typo_in_snmpd.conf.patch (Closes: #603593)
+      Thanks to Slavko <linux@slavino.sk>
+    - add fix_logging_option.patch (Closes: #616437)
+    - add fix_snmpcheck_perl_path.patch to provide snmpcheck (Closes: #44373)
+    - add net-snmp-config_multi-arch.patch to enable Multi-Arch
+    - add fix_regular_expression.patch enable to build under Multi-Arch
+    - add to snmptranslate.1.patch fix lintian "hyphen-used-as-minus-sign"
+      warnings
+    - add fix_spelling_error.patch to fix typo
+    - add after_RFC5378 to include some MIBs as DFSF-free code in RFC Documents.
+    - adjust and refresh 03_makefiles.patch
+    - add fix_man_error.patch
+    - drop 25_duplicate_iftable.patch and 44_nlist_kvm.patch since it cannot be
+      applied to current code.
+    - drop 32_mnttab_path.patch since it was merged to upstream as 
+      configure.d/config_os_misc4
+    - drop 56_manpage.patch since most of patches are merged, and others are
+      unnecessary because upstream files are disappeared.
+    - refresh 61_vacm_missing_dependency_check.patch
+    - drop 63_fix_shell.patch since it was merged to upstream
+    - reapplied 64_missing_lib.patch since upstream source has been changed.
+    - drop 65_CVE-2012-2141.patch since it was merged to upstream
+    - drop 66_formatstrings.patch since almost merged to upstream, some of 
+      code are changed in upstream and become unnecessary.
+    - move 08_defaultconfig.patch to debian/snmptrapd.conf
+  * debian/rules
+    - enable hardening
+      (TODO: building perl module would be failed without -pie)
+    - specify LDFLAGS to enable hardening
+    - add "--with autotools-dev,autoreconf"
+    - export DEB_BUILD_MAINT_OPTIONS to enable hardening
+    - drop "dh --with python-central" (Closes: #616913) 
+    - drop "include /usr/share/python/python.mk"
+    - remove "$(PYVERS:%=debian/python-install-stamp-%)"
+    - move exist python targets under override_dh_install
+    - remove unnecessary .PHONY lines
+    - enable tests by removing no instructions with dh_auto_test line
+    - set DEB_HOST_MULTIARCH to enable Multi-Arch
+    - enable install snmpcheck
+    - don't specify to copy files but install them by using .install file
+      (mostly)
+    - enable mysql support
+    - enable AES support (Closes: #447705)
+    - don't make symlink for /usr/share/doc/libsnmp-perl since other are okay
+      but it has examples files.
+    - snmpd doc files link to libsnmp (Closes: #453124)
+    - libsnmp-perl doc files link to libsnmp
+    - adjust dh_strip for dbg package.
+    - adjust dh_clean target
+    - remove override_dh_auto_build since LD_RUN_PATH is clearly specified
+      during building perl modules
+    - add mibII/mta_sendmail to build modules (Closes: #641608)
+    - install copyright file manually for libsnmp30
+    - "get-orig-source:" target: really remove IANA files.
+    - improve specifying MIBs directory with new one.
+    - add "disman/event-mib" to MIB_MODULES, somehow changes in 5.2.2-5
+      disappeared (Closes: #562787)
+  * debian/clean
+    - most listed files are cared by autotools-dev, so removed.
+  * debian/snmp.conf: fix typo (Closes: #623499, #647468)
+  * debian/snmpd.init
+    - force remove pid files (Closes: #528104)
+    - deal with MIBs directory changes
+  * add libsnmp30.lintian-overrides since it seems to be false-positive.
+  * debian/snmpd.dirs: fix "using of /var/agentx conflicts with FHS"
+    RFC says "(It may create other, implementation-specific endpoints.)", so
+    FHS-compliant endpoint is more suitable for Debian system.
+    (Closes: #672063)
+  * debian/snmpd.lintian-overrides
+    - remove above overrides since it's unnecessary anomore.
+  * move snmp.conf from libsnmp30 to snmp.
+  * debian/snmpd.default
+    - Disable loading mteTrigger and mteTriggerConf modules as they don't
+      work without non-free MIBs.
+  * libsnmp-perl.postinst: remove it since it's not necesssary because
+    symlink is handled by debian/rules
+
+ -- Hideki Yamane <henrich@debian.org>  Sun, 27 Jan 2013 11:57:29 +0900
+
 net-snmp (5.4.3~dfsg-2.7) unstable; urgency=low
 
   * Non-maintainer upload.
