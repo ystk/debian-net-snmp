@@ -1,3 +1,11 @@
+net-snmp (5.7.2.1~dfsg-7) unstable; urgency=medium
+
+  * debian/patches
+    - add CVE-2014-3565.patch taken from upstream to fix CVE-2014-3565
+      (Closes: #760132)
+
+ -- Hideki Yamane <henrich@debian.org>  Wed, 17 Sep 2014 15:56:45 +0900
+
 net-snmp (5.7.2.1~dfsg-6.1) unstable; urgency=medium
 
   * Non-maintainer upload.
