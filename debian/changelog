@@ -1,3 +1,35 @@
+net-snmp (5.7.2.1+dfsg-1+deb8u4) jessie-security; urgency=high
+
+  * CVE-2020-15861: Prevent a privilege esclation attack due to incorrect
+    symlink handling. (Closes: #966599)
+  * CVE-2020-15862: Apply a regression from upstream by reverting the
+    configure-level disabling of NET-SNMP-EXTEND-MIB in favour of a C
+    preprocessor approach.
+
+ -- Chris Lamb <lamby@debian.org>  Tue, 04 Aug 2020 15:39:02 +0100
+
+net-snmp (5.7.2.1+dfsg-1+deb8u3) jessie-security; urgency=high
+
+  * CVE-2020-15862: Disable NET-SNMP-EXTEND-MIB support by default as it was
+    possible to abuse this Management Information Base for privilege escalation
+    attacks.
+
+    Upstream notes:
+
+     - It is still possible to enable this MIB via the --with-mib-modules
+       configure option.
+
+     - Another MIB that provides similar functionality, namely
+       ucd-snmp/extensible, is disabled by default.
+
+     - The security risk of ucd-snmp/pass and ucd-snmp/pass_persist is lower
+       since these modules only introduce a security risk if the invoked
+       scripts are exploitable.
+
+    (Closes: #965166)
+
+ -- Chris Lamb <lamby@debian.org>  Wed, 29 Jul 2020 12:27:54 +0100
+
 net-snmp (5.7.2.1+dfsg-1+deb8u2) jessie-security; urgency=high
 
   * Non-maintainer upload by the LTS team.
