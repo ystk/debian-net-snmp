@@ -1,3 +1,13 @@
+net-snmp (5.7.2.1+dfsg-1+deb8u5) jessie-security; urgency=high
+
+  * Non-maintainer upload by the ELTS Team.
+  * snmpd_fix_bounds_checking: CVE-2022-24805, CVE-2022-24809
+  * snmpd_recover_set_status: CVE-2022-24806, CVE-2022-24807, CVE-2022-24808,
+    CVE-2022-24810
+  * patches based on the backports of Craig Small to Bullseye
+
+ -- Thorsten Alteholz <debian@alteholz.de>  Fri, 26 Aug 2022 22:03:02 +0200
+
 net-snmp (5.7.2.1+dfsg-1+deb8u4) jessie-security; urgency=high
 
   * CVE-2020-15861: Prevent a privilege esclation attack due to incorrect
