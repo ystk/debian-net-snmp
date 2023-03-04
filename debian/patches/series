@@ -35,3 +35,6 @@ CVE-2020-15861.patch
 snmpd_fix_bounds_checking
 snmpd_recover_set_status
 
+CVE-2022-4479x-1.patch
+CVE-2022-4479x-2.patch
+CVE-2022-4479x-3.patch

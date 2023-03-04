@@ -1,3 +1,16 @@
+net-snmp (5.7.2.1+dfsg-1+deb8u6) jessie-security; urgency=high
+
+  * Add patches to fix DoS via null pointer exception issues:
+    - debian/patches/CVE-2022-4479x-1.patch: disallow SET with NULL varbind
+      in agent/snmp_agent.c.
+    - debian/patches/CVE-2022-4479x-2.patch: allow SET with NULL varbind
+      for testing in apps/snmpset.c.
+    - debian/patches/CVE-2022-4479x-3.patch: add test for NULL varbind set
+      in testing/fulltests/default/T0142snmpv2csetnull_simple.
+    (Fixes: CVE-2022-44792, CVE-2022-44793
+
+ -- Utkarsh Gupta <utkarsh@debian.org>  Sat, 04 Mar 2023 20:44:48 +0530
+
 net-snmp (5.7.2.1+dfsg-1+deb8u5) jessie-security; urgency=high
 
   * Non-maintainer upload by the ELTS Team.
